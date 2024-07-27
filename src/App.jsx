@@ -5,16 +5,28 @@ import GeneralOverView from "./modules/AdminModule/components/Dashboard/GeneralO
 import Profile from "./modules/AdminModule/components/Profile/Profile";
 import Tables from "./modules/AdminModule/components/Tables/Tables";
 import Settings from "./modules/AdminModule/components/Settings/Settings";
+import SignIn from "./modules/AuthModule/components/SignIn/SignIn";
+import AuthLayout from "./Layout/AuthLayout";
+import SignUp from "./modules/AuthModule/components/SignUp/SignUp";
 
 const App = () => {
   const routes = createBrowserRouter([
     {
       path: "/",
+      element: <AuthLayout />,
+      children: [
+        { index: true, element: <SignIn /> },
+        { path: 'signin', element: <SignIn /> },
+        { path: 'signup', element: <SignUp /> },
+      ],
+    },
+    {
+      path: "/dashboard",
       element: <AdminLayout />,
       children: [
-        { index: true, element: <GeneralOverView /> },
+        { path: 'overview', element: <GeneralOverView /> },
         { path: "profile", element: <Profile /> },
-        { path: "tables", element: <Tables /> },
+        { path: "tables/:tableName", element: <Tables /> },
         { path: "profile", element: <Profile /> },
         { path: "settings", element: <Settings /> },
       ],
