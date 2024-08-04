@@ -16,15 +16,15 @@ const App = () => {
       element: <AuthLayout />,
       children: [
         { index: true, element: <SignIn /> },
-        { path: 'signin', element: <SignIn /> },
-        { path: 'signup', element: <SignUp /> },
+        { path: "login", element: <SignIn /> },
+        { path: "signup", element: <SignUp /> },
       ],
     },
     {
       path: "/dashboard",
       element: <AdminLayout />,
       children: [
-        { path: 'overview', element: <GeneralOverView /> },
+        { path: "overview", element: <GeneralOverView /> },
         { path: "profile", element: <Profile /> },
         { path: "tables/:tableName", element: <Tables /> },
         { path: "profile", element: <Profile /> },

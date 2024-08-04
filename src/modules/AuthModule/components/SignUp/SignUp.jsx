@@ -333,8 +333,8 @@ const SignUp = () => {
                 <div className="mt-6 text-center">
                   <p>
                     Already have an account?{" "}
-                    <Link to="/signin" className="text-primary">
-                      Sign in
+                    <Link to="/login" className="text-primary">
+                      Login
                     </Link>
                   </p>
                 </div>
