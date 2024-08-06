@@ -7,10 +7,23 @@ const PieChart = () => {
   });
 
   const [filter, setFilter] = useState("Monthly");
+  const aggregations =[
+    "Sum",
+    "Average",
+    "Median",
+    "Mode",
+    "Minimum",
+    "Maximum",
+    "Range",
+    "Variance",
+    "Standard Deviation",
+    "Percentile",
+    "Quartiles",
+    "Growth Rate",
+    "Moving Average",
+    
+  ]
 
-  const handleReset = () => {
-    setState({ series: [65, 34, 12, 56] });
-  };
 
   const handleFilterChange = (event) => {
     const selectedFilter = event.target.value;
@@ -21,9 +34,10 @@ const PieChart = () => {
       Monthly: [65, 34, 12, 56],
       Yearly: [80, 20, 5, 10],
     };
-
     setState({ series: data[selectedFilter] });
   };
+
+
 
   return (
     <div className="sm:px-7.5 col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 pt-7.5 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-5">
@@ -79,7 +93,7 @@ const PieChart = () => {
             options={{
               chart: {
                 fontFamily: "Satoshi, sans-serif",
-                type: "donut", // or 'pie'
+                type: "pie",
               },
               colors: ["#3C50E0", "#6577F3", "#8FD0EF", "#0FADCF"],
               labels: ["Desktop", "Tablet", "Mobile", "Unknown"],
@@ -132,8 +146,8 @@ const PieChart = () => {
         </div>
       </div>
 
-      <div className="-mx-8 flex flex-wrap items-center justify-center gap-y-3">
-        <div className="sm:w-1/2 w-full px-8">
+      <div className="flex flex-wrap items-center justify-center gap-y-3">
+        <div className="w-full px-8">
           <div className="flex w-full items-center">
             <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-primary"></span>
             <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
@@ -142,7 +156,7 @@ const PieChart = () => {
             </p>
           </div>
         </div>
-        <div className="sm:w-1/2 w-full px-8">
+        <div className="w-full px-8">
           <div className="flex w-full items-center">
             <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-[#6577F3]"></span>
             <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
@@ -151,7 +165,7 @@ const PieChart = () => {
             </p>
           </div>
         </div>
-        <div className="sm:w-1/2 w-full px-8">
+        <div className="w-full px-8">
           <div className="flex w-full items-center">
             <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-[#8FD0EF]"></span>
             <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
@@ -160,7 +174,7 @@ const PieChart = () => {
             </p>
           </div>
         </div>
-        <div className="sm:w-1/2 w-full px-8">
+        <div className="w-full px-8">
           <div className="flex w-full items-center">
             <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-[#0FADCF]"></span>
             <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
@@ -169,6 +183,17 @@ const PieChart = () => {
             </p>
           </div>
         </div>
+      </div>
+      <div className="mt-4 flex flex-wrap gap-2 justify-center">
+        {aggregations.map((aggregation) => (
+          <button
+            key={aggregation}
+            className="px-4 py-2 bg-primary text-white rounded-md"
+      
+          >
+            {aggregation}
+          </button>
+        ))}
       </div>
     </div>
   );
