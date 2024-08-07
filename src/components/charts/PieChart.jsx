@@ -1,13 +1,9 @@
 import React, { useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
-const PieChart = () => {
-  const [state, setState] = useState({
-    series: [65, 34, 12, 56],
-  });
-
+const PieChart = ({ data, setPieChartState }) => {
   const [filter, setFilter] = useState("Monthly");
-  const aggregations =[
+  const aggregations = [
     "Sum",
     "Average",
     "Median",
@@ -21,9 +17,7 @@ const PieChart = () => {
     "Quartiles",
     "Growth Rate",
     "Moving Average",
-    
-  ]
-
+  ];
 
   const handleFilterChange = (event) => {
     const selectedFilter = event.target.value;
@@ -34,10 +28,8 @@ const PieChart = () => {
       Monthly: [65, 34, 12, 56],
       Yearly: [80, 20, 5, 10],
     };
-    setState({ series: data[selectedFilter] });
+    setPieChartState({ series: data[selectedFilter] });
   };
-
-
 
   return (
     <div className="sm:px-7.5 col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 pt-7.5 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-5">
@@ -86,7 +78,6 @@ const PieChart = () => {
           </div>
         </div>
       </div>
-
       <div className="mb-2">
         <div id="chartThree" className="mx-auto flex justify-center">
           <ReactApexChart
@@ -140,7 +131,7 @@ const PieChart = () => {
                 },
               ],
             }}
-            series={state.series}
+            series={data}
             type="pie" // Use 'donut' or 'pie' based on your preference
           />
         </div>
@@ -151,8 +142,8 @@ const PieChart = () => {
           <div className="flex w-full items-center">
             <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-primary"></span>
             <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
-              <span> Desktop </span>
-              <span> {state.series[0]}% </span>
+              <span>Desktop</span>
+              <span>{`${data[0]} %`} </span>
             </p>
           </div>
         </div>
@@ -161,7 +152,7 @@ const PieChart = () => {
             <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-[#6577F3]"></span>
             <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
               <span> Tablet </span>
-              <span> {state.series[1]}% </span>
+              <span>{`${data[1]} %`} </span>
             </p>
           </div>
         </div>
@@ -170,7 +161,7 @@ const PieChart = () => {
             <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-[#8FD0EF]"></span>
             <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
               <span> Mobile </span>
-              <span> {state.series[2]}% </span>
+              <span>{`${data[2]} %`} </span>
             </p>
           </div>
         </div>
@@ -179,7 +170,7 @@ const PieChart = () => {
             <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-[#0FADCF]"></span>
             <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
               <span> Unknown </span>
-              <span> {state.series[3]}% </span>
+              <span>{`${data[3]} %`} </span>
             </p>
           </div>
         </div>
@@ -189,7 +180,6 @@ const PieChart = () => {
           <button
             key={aggregation}
             className="px-4 py-2 bg-primary text-white rounded-md"
-      
           >
             {aggregation}
           </button>
