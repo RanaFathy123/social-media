@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
 const options = {
-  colors: ['#3C50E0'],
+  colors: ["#3C50E0"],
   chart: {
-    fontFamily: 'Satoshi, sans-serif',
-    type: 'line',
+    fontFamily: "Satoshi, sans-serif",
+    type: "line",
     height: 335,
     toolbar: {
       show: false,
@@ -18,7 +18,7 @@ const options = {
       top: 10,
       left: 0,
       blur: 5,
-      color: '#000',
+      color: "#000",
       opacity: 0.15,
     },
   },
@@ -33,14 +33,14 @@ const options = {
     },
   ],
   stroke: {
-    curve: 'smooth',
+    curve: "smooth",
     width: [2],
   },
   dataLabels: {
     enabled: false,
   },
   xaxis: {
-    categories: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+    categories: ["M", "T", "W", "T", "F", "S", "S"],
     axisBorder: {
       show: false,
     },
@@ -51,16 +51,16 @@ const options = {
   yaxis: {
     title: {
       style: {
-        fontSize: '0px',
+        fontSize: "0px",
       },
     },
   },
   legend: {
-    position: 'top',
-    horizontalAlign: 'left',
-    fontFamily: 'Satoshi',
+    position: "top",
+    horizontalAlign: "left",
+    fontFamily: "Satoshi",
     fontWeight: 500,
-    fontSize: '14px',
+    fontSize: "14px",
     markers: {
       radius: 12,
     },
@@ -70,16 +70,7 @@ const options = {
   },
 };
 
-const LineChart = () => {
-  const [state, setState] = useState({
-    series: [
-      {
-        name: "Sales",
-        data: [44, 55, 41, 67, 22, 43, 65],
-      }
-    ],
-  });
-
+const LineChart = ({ data, setLineState }) => {
   const [filter, setFilter] = useState("This Week");
 
   const handleFilterChange = (newFilter) => {
@@ -91,17 +82,17 @@ const LineChart = () => {
         {
           name: "Sales",
           data: [44, 55, 41, 67, 22, 43, 65],
-        }
+        },
       ],
       "Last Week": [
         {
           name: "Sales",
           data: [34, 45, 31, 60, 20, 50, 70],
-        }
+        },
       ],
     };
 
-    setState({ series: data[newFilter] });
+    setLineState({ series: data[newFilter] });
   };
 
   return (
@@ -134,7 +125,7 @@ const LineChart = () => {
         <div id="chartTwo" className="-ml-5 -mb-9">
           <ReactApexChart
             options={options}
-            series={state.series}
+            series={data}
             type="line"
             height={450}
           />

@@ -1,16 +1,23 @@
 import React, { useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
-const PieChart = () => {
-  const [state, setState] = useState({
-    series: [65, 34, 12, 56],
-  });
-
+const PieChart = ({ data, setPieChartState }) => {
   const [filter, setFilter] = useState("Monthly");
-
-  const handleReset = () => {
-    setState({ series: [65, 34, 12, 56] });
-  };
+  const aggregations = [
+    "Sum",
+    "Average",
+    "Median",
+    "Mode",
+    "Minimum",
+    "Maximum",
+    "Range",
+    "Variance",
+    "Standard Deviation",
+    "Percentile",
+    "Quartiles",
+    "Growth Rate",
+    "Moving Average",
+  ];
 
   const handleFilterChange = (event) => {
     const selectedFilter = event.target.value;
@@ -21,8 +28,7 @@ const PieChart = () => {
       Monthly: [65, 34, 12, 56],
       Yearly: [80, 20, 5, 10],
     };
-
-    setState({ series: data[selectedFilter] });
+    setPieChartState({ series: data[selectedFilter] });
   };
 
   return (
@@ -72,14 +78,13 @@ const PieChart = () => {
           </div>
         </div>
       </div>
-
       <div className="mb-2">
         <div id="chartThree" className="mx-auto flex justify-center">
           <ReactApexChart
             options={{
               chart: {
                 fontFamily: "Satoshi, sans-serif",
-                type: "donut", // or 'pie'
+                type: "pie",
               },
               colors: ["#3C50E0", "#6577F3", "#8FD0EF", "#0FADCF"],
               labels: ["Desktop", "Tablet", "Mobile", "Unknown"],
@@ -126,49 +131,59 @@ const PieChart = () => {
                 },
               ],
             }}
-            series={state.series}
+            series={data}
             type="pie" // Use 'donut' or 'pie' based on your preference
           />
         </div>
       </div>
 
-      <div className="-mx-8 flex flex-wrap items-center justify-center gap-y-3">
-        <div className="sm:w-1/2 w-full px-8">
+      <div className="flex flex-wrap items-center justify-center gap-y-3">
+        <div className="w-full px-8">
           <div className="flex w-full items-center">
             <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-primary"></span>
             <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
-              <span> Desktop </span>
-              <span> {state.series[0]}% </span>
+              <span>Desktop</span>
+              <span>{`${data[0]} %`} </span>
             </p>
           </div>
         </div>
-        <div className="sm:w-1/2 w-full px-8">
+        <div className="w-full px-8">
           <div className="flex w-full items-center">
             <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-[#6577F3]"></span>
             <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
               <span> Tablet </span>
-              <span> {state.series[1]}% </span>
+              <span>{`${data[1]} %`} </span>
             </p>
           </div>
         </div>
-        <div className="sm:w-1/2 w-full px-8">
+        <div className="w-full px-8">
           <div className="flex w-full items-center">
             <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-[#8FD0EF]"></span>
             <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
               <span> Mobile </span>
-              <span> {state.series[2]}% </span>
+              <span>{`${data[2]} %`} </span>
             </p>
           </div>
         </div>
-        <div className="sm:w-1/2 w-full px-8">
+        <div className="w-full px-8">
           <div className="flex w-full items-center">
             <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-[#0FADCF]"></span>
             <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
               <span> Unknown </span>
-              <span> {state.series[3]}% </span>
+              <span>{`${data[3]} %`} </span>
             </p>
           </div>
         </div>
+      </div>
+      <div className="mt-4 flex flex-wrap gap-2 justify-center">
+        {aggregations.map((aggregation) => (
+          <button
+            key={aggregation}
+            className="px-4 py-2 bg-primary text-white rounded-md"
+          >
+            {aggregation}
+          </button>
+        ))}
       </div>
     </div>
   );
