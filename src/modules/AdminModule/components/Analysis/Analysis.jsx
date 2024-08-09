@@ -6,6 +6,7 @@ import BarChartVertical from "../../../../components/charts/BarChartVertical";
 import LineChart from "../../../../components/charts/LineChart";
 import PieChart from "../../../../components/charts/PieChart";
 
+
 const Analysis = () => {
   const [pieChartState, setPieChartState] = useState({
     series: [65, 34, 12, 56],
@@ -58,6 +59,7 @@ const Analysis = () => {
       "Aug",
     ],
   });
+
   const aggregations = [
     "Sum",
     "Average",

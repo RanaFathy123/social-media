@@ -1,7 +1,29 @@
+import axios from "axios";
 import React from "react";
-import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const SignIn = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const navigate = useNavigate();
+  const onSubmit = (data) => {
+    console.log(data);
+    //   try{
+    //  const response = await axios.post('api url',data)
+    //   }catch(err){
+    //     console.log(err);
+
+    //   }
+    toast.success("Login Successfully");
+    navigate("/dashboard/overview");
+  };
+
   return (
     <div className="container mx-auto px-5 min-h-screen">
       <div className="rounded-sm border container  py-3 mx-auto min-h-screen border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -141,10 +163,9 @@ const SignIn = () => {
             <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
               <span className="mb-1.5 block font-medium">Start for free</span>
               <h2 className="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
-                Sign In to TailAdmin
+                Sign In
               </h2>
-
-              <form>
+              <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
                     Email
@@ -153,6 +174,9 @@ const SignIn = () => {
                     <input
                       type="email"
                       placeholder="Enter your email"
+                      {...register("email", {
+                        required: true,
+                      })}
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
 
@@ -184,6 +208,9 @@ const SignIn = () => {
                     <input
                       type="password"
                       placeholder="6+ Characters, 1 Capital letter"
+                      {...register("password", {
+                        required: true,
+                      })}
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
 
@@ -210,7 +237,6 @@ const SignIn = () => {
                     </span>
                   </div>
                 </div>
-
                 <div className="mb-5">
                   <input
                     type="submit"
@@ -218,7 +244,6 @@ const SignIn = () => {
                     className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
                   />
                 </div>
-
                 <button className="flex w-full items-center justify-center gap-3.5 rounded-lg border border-stroke bg-gray p-4 hover:bg-opacity-50 dark:border-strokedark dark:bg-meta-4 dark:hover:bg-opacity-50">
                   <span>
                     <svg

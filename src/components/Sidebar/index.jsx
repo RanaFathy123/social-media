@@ -216,6 +216,32 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                   Map Analysis
                 </NavLink>
               </li>
+              <li>
+                <NavLink
+                  to="/dashboard/success-rate"
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                    pathname.includes("success-rate") &&
+                    "bg-graydark dark:bg-meta-4"
+                  }`}
+                >
+                  <FaChartPie className="w-4 h-4 fill-current" />{" "}
+                  {/* New analysis icon */}
+                  Success Rate
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/dashboard/couriers"
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                    pathname.includes("couriers") &&
+                    "bg-graydark dark:bg-meta-4"
+                  }`}
+                >
+                  <FaChartPie className="w-4 h-4 fill-current" />{" "}
+                  {/* New analysis icon */}
+                  Couriers Analysis
+                </NavLink>
+              </li>
               {/* <!-- Menu Item Tables --> */}
               <SidebarLinkGroup
                 activeCondition={

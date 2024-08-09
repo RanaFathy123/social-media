@@ -10,6 +10,10 @@ import AuthLayout from "./Layout/AuthLayout";
 import SignUp from "./modules/AuthModule/components/SignUp/SignUp";
 import Analysis from "./modules/AdminModule/components/Analysis/Analysis";
 import MapAnalysis from "./modules/AdminModule/components/MapAnalysis/MapAnalysis";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import SuccessRate from "./modules/AdminModule/components/SuccessRate/SuccessRate";
+import CouriersAnalysis from "./modules/AdminModule/components/CouriersAnalysis/CouriersAnalysis";
 
 const App = () => {
   const routes = createBrowserRouter([
@@ -33,11 +37,18 @@ const App = () => {
         { path: "settings", element: <Settings /> },
         { path: "analysis", element: <Analysis /> },
         { path: "map", element: <MapAnalysis /> },
+        { path: "success-rate", element: <SuccessRate /> },
+        { path: "couriers", element: <CouriersAnalysis /> },
       ],
     },
   ]);
 
-  return <RouterProvider router={routes} />;
+  return (
+    <>
+      <RouterProvider router={routes} />
+      <ToastContainer />
+    </>
+  );
 };
 
 export default App;

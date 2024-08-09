@@ -25,10 +25,10 @@ const MapAnalysis = () => {
           </div>
           <div className="mt-5 ">
             <div className="mt-5 ">
-              <BarChartVertical data={barChartState.series} />
+              <BarChartVertical data={barChartState.series}  />
             </div>
             <div className="mt-5 ">
-              <PieChart data={pieChartState.series} />
+              <PieChart data={pieChartState.series}  setPieChartState={setPieChartState}/>
             </div>
           </div>
         </div>
