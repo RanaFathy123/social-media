@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import PieChart from "../../../../components/charts/PieChart";
-import BarChart from "../../../../components/charts/BarChart";
-import AreaChart from "../../../../components/charts/AreaChart";
-import LineChart from "../../../../components/charts/LineChart";
-import { FaChartPie } from "react-icons/fa";
 import { useForm } from "react-hook-form";
+import { FaChartPie } from "react-icons/fa";
+import AreaChart from "../../../../components/charts/AreaChart";
+import BarChartVertical from "../../../../components/charts/BarChartVertical";
+import LineChart from "../../../../components/charts/LineChart";
+import PieChart from "../../../../components/charts/PieChart";
 
 const Analysis = () => {
   const [pieChartState, setPieChartState] = useState({
@@ -84,8 +84,8 @@ const Analysis = () => {
 
   const onSubmit = (data) => {
     console.log(data);
-    setShowPieChart(false)
-    setShowDataPieChart(true)
+    setShowPieChart(false);
+    setShowDataPieChart(true);
   };
 
   return (
@@ -228,7 +228,7 @@ const Analysis = () => {
             </div>
           )}
           <div className="bg-white rounded-lg shadow-md dark:bg-boxdark dark:border-strokedark p-4 md:p-6 2xl:p-8 transition-transform duration-200 transform hover:scale-105">
-            <BarChart
+            <BarChartVertical
               data={barChartState.series}
               setBarChartState={setBarChartState}
             />

@@ -9,6 +9,7 @@ import SignIn from "./modules/AuthModule/components/SignIn/SignIn";
 import AuthLayout from "./Layout/AuthLayout";
 import SignUp from "./modules/AuthModule/components/SignUp/SignUp";
 import Analysis from "./modules/AdminModule/components/Analysis/Analysis";
+import MapAnalysis from "./modules/AdminModule/components/MapAnalysis/MapAnalysis";
 
 const App = () => {
   const routes = createBrowserRouter([
@@ -31,7 +32,7 @@ const App = () => {
         { path: "profile", element: <Profile /> },
         { path: "settings", element: <Settings /> },
         { path: "analysis", element: <Analysis /> },
-
+        { path: "map", element: <MapAnalysis /> },
       ],
     },
   ]);

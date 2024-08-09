@@ -30,7 +30,7 @@ const options = {
   ],
   plotOptions: {
     bar: {
-      horizontal: false,
+      horizontal: true,
       borderRadius: 0,
       columnWidth: "25%",
       borderRadiusApplication: "end",
@@ -58,7 +58,7 @@ const options = {
   },
 };
 
-const BarChart = ({ data, setBarChartState }) => {
+const BarChartHorizontal = ({ data, setBarChartState }) => {
   const [filter, setFilter] = useState("This Week");
 
   const handleFilterChange = (newFilter) => {
@@ -92,7 +92,7 @@ const BarChart = ({ data, setBarChartState }) => {
   };
 
   return (
-    <div className="col-span-12 rounded-sm border border-stroke bg-white p-7.5 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-4">
+    <div className="rounded-sm border border-stroke bg-white p-7.5 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-4">
       <div className="mb-4 justify-between gap-4 sm:flex">
         <div>
           <h4 className="text-xl font-semibold text-black dark:text-white">
@@ -131,4 +131,4 @@ const BarChart = ({ data, setBarChartState }) => {
   );
 };
 
-export default BarChart;
+export default BarChartHorizontal;

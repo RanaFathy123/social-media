@@ -175,7 +175,7 @@ const PieChart = ({ data, setPieChartState }) => {
           </div>
         </div>
       </div>
-      <div className="mt-4 flex flex-wrap gap-2 justify-center">
+      {/* <div className="mt-4 flex flex-wrap gap-2 justify-center">
         {aggregations.map((aggregation) => (
           <button
             key={aggregation}
@@ -184,7 +184,7 @@ const PieChart = ({ data, setPieChartState }) => {
             {aggregation}
           </button>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 };
