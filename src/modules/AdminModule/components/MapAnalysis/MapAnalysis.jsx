@@ -1,21 +1,68 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CardDataStats from "../../../../components/CardDataStats";
 import BarChartHorizontal from "../../../../components/charts/BarChartHorizontal";
 import BarChartVertical from "../../../../components/charts/BarChartVertical";
 import PieChart from "../../../../components/charts/PieChart";
+import { fetchDataFromAPI } from '../../../../utility_backend/API_Call';
 
 const MapAnalysis = () => {
   const [barChartState, setBarChartState] = useState({
     series: [
       {
         name: "Sales",
-        data: [44, 55, 41, 67, 22, 43, 65],
+        data: [],
       },
     ],
   });
   const [pieChartState, setPieChartState] = useState({
-    series: [65, 34, 12, 56],
+    series: [],
   });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await fetchDataFromAPI({
+          endpoint: "/api/Query_DB",
+          method: "POST",
+          body: { query: "SELECT count(order_status) as order_status FROM Zapier_Data GROUP BY order_status" },
+        });
+
+        console.log('Raw Data:', data); // Log the data to inspect its structure
+
+        const orderStatuses = data.map(item => item.order_status);
+        console.log('Order Statuses:', orderStatuses);
+        
+        // Update the bar chart state with the fetched data
+        setBarChartState({
+          series: [
+            {
+              name: "Sales",
+              data: orderStatuses,
+            },
+          ],
+        });
+
+        // Optionally, update the pie chart state with actual data if needed
+        setPieChartState({
+          series: [65, 34, 12, 56], // Replace with actual data if necessary
+        });
+
+        setLoading(false);
+      } catch (err) {
+        setError(err.message);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
+
+  if (error) return <div>Error: {error}</div>;
+
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 2xl:gap-8">
@@ -25,10 +72,10 @@ const MapAnalysis = () => {
           </div>
           <div className="mt-5 ">
             <div className="mt-5 ">
-              <BarChartVertical data={barChartState.series}  />
+              <BarChartVertical data={barChartState.series} />
             </div>
             <div className="mt-5 ">
-              <PieChart data={pieChartState.series}  setPieChartState={setPieChartState}/>
+              <PieChart data={pieChartState.series} />
             </div>
           </div>
         </div>
