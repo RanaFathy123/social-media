@@ -20,7 +20,6 @@
 //   const [loading, setLoading] = useState(true);
 //   const [error, setError] = useState(null);
 
-
 //   const body_query_NoSQL=
 //   {
 //     "collectionName": "Zapier_data",
@@ -54,14 +53,10 @@
 //         count: item.order_status // The count is in order_status
 //       }));
 
-
 //       const barChartData = orderStatuses.map(item => item.count);
 //       const barChartCategories = orderStatuses.map(item => item.order_status);
 //       console.log('Order Statuses:', barChartData);
 //       console.log('Order barChartCategories:', barChartCategories);
-
-
-
 
 //         // Update the bar chart state with the fetched data
 //         setBarChartState({
@@ -248,13 +243,13 @@
 
 // export default MapAnalysis;
 
-
 import React, { useState, useEffect } from "react";
 import CardDataStats from "../../../../components/CardDataStats";
 import BarChartHorizontal from "../../../../components/charts/BarChartHorizontal";
 import BarChartVertical from "../../../../components/charts/BarChartVertical";
 import PieChart from "../../../../components/charts/PieChart";
-import { fetchDataFromAPI } from '../../../../utility_backend/API_Call';
+import { fetchDataFromAPI } from "../../../../utility_backend/API_Call";
+import MapChart from "../../../../components/charts/MapChart";
 
 const MapAnalysis = () => {
   const [barChartState, setBarChartState] = useState({
@@ -265,9 +260,9 @@ const MapAnalysis = () => {
       },
     ],
   });
-  const [categories, setCategories] = useState([]);  // State for categories
-  const [xAxisName, setXAxisName] = useState("Order Status");  // X-axis name
-  const [yAxisName, setYAxisName] = useState("Count");  // Y-axis name
+  const [categories, setCategories] = useState([]); // State for categories
+  const [xAxisName, setXAxisName] = useState("Order Status"); // X-axis name
+  const [yAxisName, setYAxisName] = useState("Count"); // Y-axis name
   const [pieChartState, setPieChartState] = useState({
     series: [],
   });
@@ -275,15 +270,15 @@ const MapAnalysis = () => {
   const [error, setError] = useState(null);
 
   const body_query_NoSQL = {
-    "collectionName": "Zapier_data",
-    "pipeline": [
+    collectionName: "Zapier_data",
+    pipeline: [
       {
-        "$group": {
-          "_id": "$order_status",
-          "order_status": { "$sum": 1 }
-        }
-      }
-    ]
+        $group: {
+          _id: "$order_status",
+          order_status: { $sum: 1 },
+        },
+      },
+    ],
   };
 
   useEffect(() => {
@@ -296,14 +291,16 @@ const MapAnalysis = () => {
         });
 
         // Map the response data
-        const orderStatuses = response.data.map(item => ({
+        const orderStatuses = response.data.map((item) => ({
           order_status: item._id,
           count: item.order_status,
         }));
 
         // Extract data and categories
-        const barChartData = orderStatuses.map(item => item.count);
-        const barChartCategories = orderStatuses.map(item => item.order_status);
+        const barChartData = orderStatuses.map((item) => item.count);
+        const barChartCategories = orderStatuses.map(
+          (item) => item.order_status
+        );
 
         // Update the chart state with the fetched data
         setBarChartState({
@@ -314,12 +311,12 @@ const MapAnalysis = () => {
             },
           ],
         });
-        setCategories(barChartCategories);  // Update categories state
+        setCategories(barChartCategories); // Update categories state
 
         // Optionally, update the pie chart state with actual data if needed
         setPieChartState({
-          series: barChartData,  // Use bar chart data for the pie chart
-          labels: barChartCategories,  // Use categories as labels for the pie chart
+          series: barChartData, // Use bar chart data for the pie chart
+          labels: barChartCategories, // Use categories as labels for the pie chart
         });
 
         setLoading(false);
@@ -343,21 +340,21 @@ const MapAnalysis = () => {
           <div>
             <BarChartHorizontal
               data={barChartState.series}
-              categories={categories}  // Pass categories
-              xAxisName={xAxisName}  // Pass X-axis name
-              yAxisName={yAxisName}
-              isHorizontal={true}  // Pass Y-axis name
+              categories={categories} // Pass categories
+              xAxisName={xAxisName} // Pass X-axis name
+              yAxisName={yAxisName}// Pass Y-axis name
+              isHorizontal={true} 
             />
           </div>
           <div className="mt-5">
             <div className="mt-5">
-            <BarChartHorizontal
-              data={barChartState.series}
-              categories={categories}  // Pass categories
-              xAxisName={xAxisName}  // Pass X-axis name
-              yAxisName={yAxisName}
-              isHorizontal={false}  // Pass Y-axis name
-            />
+              <BarChartHorizontal
+                data={barChartState.series}
+                categories={categories} // Pass categories
+                xAxisName={xAxisName} // Pass X-axis name
+                yAxisName={yAxisName}// Pass Y-axis name
+                isHorizontal={false} 
+              />
             </div>
             <div className="mt-5">
               <PieChart data={pieChartState.series} />
@@ -417,6 +414,9 @@ const MapAnalysis = () => {
               </svg>
             </CardDataStats>
           </div>
+          {/* <div>
+            <MapChart/>
+          </div> */}
         </div>
       </div>
     </>
@@ -424,4 +424,3 @@ const MapAnalysis = () => {
 };
 
 export default MapAnalysis;
-
