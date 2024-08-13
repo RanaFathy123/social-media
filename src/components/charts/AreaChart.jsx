@@ -96,34 +96,8 @@ const options = {
   },
 };
 
-const AreaChart = () => {
-  const [state, setState] = useState({
-    series: [
-      {
-        name: "Product One",
-        data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30, 45],
-      },
-      {
-        name: "Product Two",
-        data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39, 51],
-      },
-    ],
-    categories: [
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-    ],
-  });
 
+const AreaChart = ({data,setAreaChartState,categories}) => {
   const [filter, setFilter] = useState("Month");
 
   const handleFilterChange = (newFilter) => {
@@ -197,7 +171,7 @@ const AreaChart = () => {
       },
     };
 
-    setState(data[newFilter]);
+    setAreaChartState(data[newFilter]);
   };
 
   return (
@@ -250,8 +224,8 @@ const AreaChart = () => {
       <div>
         <div id="chartOne" className="-ml-5">
           <ReactApexChart
-            options={{ ...options, xaxis: { categories: state.categories } }}
-            series={state.series}
+            options={{ ...options, xaxis: { categories: categories } }}
+            series={data}
             type="area"
             height={350}
           />

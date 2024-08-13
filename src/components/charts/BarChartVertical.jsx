@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
-
 const options = {
-  colors: ['#3C50E0', '#80CAEE'],
+  colors: ["#3C50E0", "#80CAEE"],
   chart: {
-    fontFamily: 'Satoshi, sans-serif',
-    type: 'bar',
+    fontFamily: "Satoshi, sans-serif",
+    type: "bar",
     height: 335,
     stacked: true,
     toolbar: {
@@ -23,7 +22,7 @@ const options = {
         plotOptions: {
           bar: {
             borderRadius: 0,
-            columnWidth: '25%',
+            columnWidth: "25%",
           },
         },
       },
@@ -33,23 +32,23 @@ const options = {
     bar: {
       horizontal: false,
       borderRadius: 0,
-      columnWidth: '25%',
-      borderRadiusApplication: 'end',
-      borderRadiusWhenStacked: 'last',
+      columnWidth: "25%",
+      borderRadiusApplication: "end",
+      borderRadiusWhenStacked: "last",
     },
   },
   dataLabels: {
     enabled: false,
   },
   xaxis: {
-    categories: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+    categories: ["M", "T", "W", "T", "F", "S", "S"],
   },
   legend: {
-    position: 'top',
-    horizontalAlign: 'left',
-    fontFamily: 'Satoshi',
+    position: "top",
+    horizontalAlign: "left",
+    fontFamily: "Satoshi",
     fontWeight: 500,
-    fontSize: '14px',
+    fontSize: "14px",
     markers: {
       radius: 99,
     },
@@ -59,20 +58,7 @@ const options = {
   },
 };
 
-const BarChart = () => {
-  const [state, setState] = useState({
-    series: [
-      {
-        name: "Sales",
-        data: [44, 55, 41, 67, 22, 43, 65],
-      },
-      {
-        name: "Revenue",
-        data: [13, 23, 20, 8, 13, 27, 15],
-      },
-    ],
-  });
-
+const BarChartVertical = ({ data, setBarChartState }) => {
   const [filter, setFilter] = useState("This Week");
 
   const handleFilterChange = (newFilter) => {
@@ -102,7 +88,7 @@ const BarChart = () => {
       ],
     };
 
-    setState({ series: data[newFilter] });
+    setBarChartState({ series: data[newFilter] });
   };
 
   return (
@@ -135,7 +121,7 @@ const BarChart = () => {
         <div id="chartTwo" className="-ml-5 -mb-9">
           <ReactApexChart
             options={options}
-            series={state.series}
+            series={data}
             type="bar"
             height={350}
           />
@@ -145,4 +131,4 @@ const BarChart = () => {
   );
 };
 
-export default BarChart;
+export default BarChartVertical;
