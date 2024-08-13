@@ -252,6 +252,7 @@ import { fetchDataFromAPI } from "../../../../utility_backend/API_Call";
 import MapChart from "../../../../components/charts/MapChart";
 
 const MapAnalysis = () => {
+  
   const [barChartState, setBarChartState] = useState({
     series: [
       {
@@ -260,12 +261,17 @@ const MapAnalysis = () => {
       },
     ],
   });
-  const [categories, setCategories] = useState([]); // State for categories
-  const [xAxisName, setXAxisName] = useState("Order Status"); // X-axis name
-  const [yAxisName, setYAxisName] = useState("Count"); // Y-axis name
+  const [categories, setCategories] = useState([]);  // State for categories
+  const [xAxisName, setXAxisName] = useState("Order Status");  // X-axis name
+  const [yAxisName, setYAxisName] = useState("Count");  // Y-axis name
+
+  
   const [pieChartState, setPieChartState] = useState({
     series: [],
+    categories: [],
   });
+
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -313,10 +319,57 @@ const MapAnalysis = () => {
         });
         setCategories(barChartCategories); // Update categories state
 
+
+        setLoading(false);
+      } catch (err) {
+        setError(err.message);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+///////////////////////////////////////////Getting data for Pie chart//////////////////////////
+const Pie_chart_NoSQL = 
+  {
+    "collectionName": "Zapier_data",
+    "pipeline": [
+      {
+        "$group": {
+          "_id": "$payment_method",  // Group by payment method
+          "total_value_sum": { "$sum": "$order_total" }  // Calculate the sum of total_value
+        }
+      }
+    ]
+  }
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const Pie_chart = await fetchDataFromAPI({
+          endpoint: "/api/Query_DB",
+          method: "POST",
+          body: Pie_chart_NoSQL,
+        });
+
+        // Map the response data
+        const Pie_chart_data = Pie_chart.data.map(item => ({
+          Payment_Type: item._id,
+          Total_number: item.total_value_sum,
+        }));
+
+        // Extract data and categories
+        const Pie_chart_data_values = Pie_chart_data.map(item => item.Total_number);
+        const Pie_chart_data_Categories = Pie_chart_data.map(item => item.Payment_Type);
+        
+        console.log(Pie_chart_data_values)
+
         // Optionally, update the pie chart state with actual data if needed
         setPieChartState({
-          series: barChartData, // Use bar chart data for the pie chart
-          labels: barChartCategories, // Use categories as labels for the pie chart
+          series: Pie_chart_data_values,  // Use bar chart data for the pie chart
+          categories: Pie_chart_data_Categories,  // Use categories as labels for the pie chart
         });
 
         setLoading(false);
@@ -328,6 +381,9 @@ const MapAnalysis = () => {
 
     fetchData();
   }, []);
+
+  ///////////////////////////////////////////End Getting data for Pie chart//////////////////////////
+
 
   if (loading) return <div>Loading...</div>;
 
@@ -357,7 +413,12 @@ const MapAnalysis = () => {
               />
             </div>
             <div className="mt-5">
-              <PieChart data={pieChartState.series} />
+              <PieChart 
+                      data={pieChartState.series}
+                      categories={pieChartState.categories}
+                      title="Payment Methods Distribution"
+                      
+                      />
             </div>
           </div>
         </div>
