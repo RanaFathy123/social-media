@@ -4,6 +4,7 @@ import BarChartHorizontal from "../../../../components/charts/BarChartHorizontal
 import BarChartVertical from "../../../../components/charts/BarChartVertical";
 import PieChart from "../../../../components/charts/PieChart";
 import { fetchDataFromAPI } from "../../../../utility_backend/API_Call";
+import MapChart from "../../../../components/charts/MapChart";
 
 const MapAnalysis = () => {
   const [barChartState, setBarChartState] = useState({
@@ -224,6 +225,7 @@ const MapAnalysis = () => {
                 />
               </svg>
             </CardDataStats>
+            
           </div>
         </div>
       </div>

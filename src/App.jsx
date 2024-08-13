@@ -14,6 +14,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SuccessRate from "./modules/AdminModule/components/SuccessRate/SuccessRate";
 import CouriersAnalysis from "./modules/AdminModule/components/CouriersAnalysis/CouriersAnalysis";
+import { Mappage } from "./modules/AdminModule/components/Dashboard/Mappage";
 
 const App = () => {
   const routes = createBrowserRouter([
@@ -31,6 +32,7 @@ const App = () => {
       element: <AdminLayout />,
       children: [
         { path: "overview", element: <GeneralOverView /> },
+        { path: "mapchart", element: <Mappage /> },
         { path: "profile", element: <Profile /> },
         { path: "tables/:tableName", element: <Tables /> },
         { path: "profile", element: <Profile /> },
