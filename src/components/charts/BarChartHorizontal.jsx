@@ -138,7 +138,7 @@
 import React, { useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
-const BarChartHorizontal = ({ data, categories, xAxisName, yAxisName, setBarChartState }) => {
+const BarChartHorizontal = ({ data,isHorizontal, categories, xAxisName, yAxisName, setBarChartState }) => {
   const [filter, setFilter] = useState("This Week");
 
   const options = {
@@ -170,7 +170,7 @@ const BarChartHorizontal = ({ data, categories, xAxisName, yAxisName, setBarChar
     ],
     plotOptions: {
       bar: {
-        horizontal: true,
+        horizontal: isHorizontal,
         borderRadius: 0,
         columnWidth: "25%",
         borderRadiusApplication: "end",

@@ -345,12 +345,19 @@ const MapAnalysis = () => {
               data={barChartState.series}
               categories={categories}  // Pass categories
               xAxisName={xAxisName}  // Pass X-axis name
-              yAxisName={yAxisName}  // Pass Y-axis name
+              yAxisName={yAxisName}
+              isHorizontal={true}  // Pass Y-axis name
             />
           </div>
           <div className="mt-5">
             <div className="mt-5">
-              <BarChartVertical data={barChartState.series} />
+            <BarChartHorizontal
+              data={barChartState.series}
+              categories={categories}  // Pass categories
+              xAxisName={xAxisName}  // Pass X-axis name
+              yAxisName={yAxisName}
+              isHorizontal={false}  // Pass Y-axis name
+            />
             </div>
             <div className="mt-5">
               <PieChart data={pieChartState.series} />
