@@ -16,6 +16,7 @@ import SuccessRate from "./modules/AdminModule/components/SuccessRate/SuccessRat
 import CouriersAnalysis from "./modules/AdminModule/components/CouriersAnalysis/CouriersAnalysis";
 import { Mappage } from "./modules/AdminModule/components/Dashboard/Mappage";
 
+
 const App = () => {
   const routes = createBrowserRouter([
     {
