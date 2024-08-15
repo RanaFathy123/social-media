@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import CardDataStats from "../../../../components/CardDataStats";
 import BarChartHorizontal from "../../../../components/charts/BarChartHorizontal";
-import BarChartVertical from "../../../../components/charts/BarChartVertical";
 import PieChart from "../../../../components/charts/PieChart";
 import { fetchDataFromAPI } from "../../../../utility_backend/API_Call";
-import MapChart from "../../../../components/charts/MapChart";
 
 const MapAnalysis = () => {
   const [barChartState, setBarChartState] = useState({
@@ -26,6 +24,8 @@ const MapAnalysis = () => {
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const filtersData = [];
 
   const body_query_NoSQL = {
     collectionName: "Zapier_data",
@@ -102,13 +102,11 @@ const MapAnalysis = () => {
           method: "POST",
           body: Pie_chart_NoSQL,
         });
-
         // Map the response data
         const Pie_chart_data = Pie_chart.data.map((item) => ({
           Payment_Type: item._id,
           Total_number: item.total_value_sum,
         }));
-
         // Extract data and categories
         const Pie_chart_data_values = Pie_chart_data.map(
           (item) => item.Total_number
@@ -116,15 +114,12 @@ const MapAnalysis = () => {
         const Pie_chart_data_Categories = Pie_chart_data.map(
           (item) => item.Payment_Type
         );
-
         console.log(Pie_chart_data_values);
-
         // Optionally, update the pie chart state with actual data if needed
         setPieChartState({
           series: Pie_chart_data_values, // Use bar chart data for the pie chart
           categories: Pie_chart_data_Categories, // Use categories as labels for the pie chart
         });
-
         setLoading(false);
       } catch (err) {
         setError(err.message);
@@ -143,6 +138,55 @@ const MapAnalysis = () => {
 
   return (
     <>
+    <div className="flex justify-between mb-5 flex-col lg:flex-row">
+    <div className="relative z-20 inline-block mb-3">
+        <h1 className="mb-3">شركة الشحن/الفرع</h1>
+        <button
+          className={`py-1 px-3 text-sm font-medium rounded  bg-primary text-white " : "bg-transparent text-black"}`}
+        >
+          This Week
+        </button>
+        <button
+          className={`py-1 px-3 text-sm font-medium rounded "bg-primary text-white" : "bg-transparent text-black"}`}
+        >
+          Last Week
+        </button>
+        <button
+          className={`py-1 px-3 text-sm font-medium rounded "bg-primary text-white" : "bg-transparent text-black"}`}
+        >
+          Last Week
+        </button>
+        <button
+          className={`py-1 px-3 text-sm font-medium rounded "bg-primary text-white" : "bg-transparent text-black"}`}
+        >
+          Last Week
+        </button>
+      </div>
+      <div className="relative z-20 inline-block mb-3">
+        <h1 className="mb-3">شركة الشحن/الفرع</h1>
+        <button
+          className={`py-1 px-3 text-sm font-medium rounded  bg-primary text-white " : "bg-transparent text-black"}`}
+        >
+          This Week
+        </button>
+        <button
+          className={`py-1 px-3 text-sm font-medium rounded "bg-primary text-white" : "bg-transparent text-black"}`}
+        >
+          Last Week
+        </button>
+        <button
+          className={`py-1 px-3 text-sm font-medium rounded "bg-primary text-white" : "bg-transparent text-black"}`}
+        >
+          Last Week
+        </button>
+        <button
+          className={`py-1 px-3 text-sm font-medium rounded "bg-primary text-white" : "bg-transparent text-black"}`}
+        >
+          Last Week
+        </button>
+      </div>
+    </div>
+ 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 2xl:gap-8">
         <div>
           <div>
@@ -225,7 +269,6 @@ const MapAnalysis = () => {
                 />
               </svg>
             </CardDataStats>
-            
           </div>
         </div>
       </div>

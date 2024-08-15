@@ -14,6 +14,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SuccessRate from "./modules/AdminModule/components/SuccessRate/SuccessRate";
 import CouriersAnalysis from "./modules/AdminModule/components/CouriersAnalysis/CouriersAnalysis";
+import MapPage from "./modules/AdminModule/components/Dashboard/MapPage";
 
 
 
@@ -33,13 +34,14 @@ const App = () => {
       element: <AdminLayout />,
       children: [
         { path: "overview", element: <GeneralOverView /> },
-
         { path: "profile", element: <Profile /> },
         { path: "tables/:tableName", element: <Tables /> },
         { path: "profile", element: <Profile /> },
         { path: "settings", element: <Settings /> },
         { path: "analysis", element: <Analysis /> },
         { path: "map", element: <MapAnalysis /> },
+        { path: "map-page", element: <MapPage /> },
+
         { path: "success-rate", element: <SuccessRate /> },
         { path: "couriers", element: <CouriersAnalysis /> },
       ],

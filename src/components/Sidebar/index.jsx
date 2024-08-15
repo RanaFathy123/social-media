@@ -183,6 +183,17 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                               General OverView
                             </NavLink>
                           </li>
+                          <li>
+                            <NavLink
+                              to="/dashboard/map-page"
+                              className={({ isActive }) =>
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
+                              }
+                            >
+                              Map Page
+                            </NavLink>
+                          </li>
                         </ul>
                       </div>
                       {/* <!-- Dropdown Menu End --> */}
@@ -195,7 +206,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                 <NavLink
                   to="/dashboard/analysis"
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                    pathname.includes("analysis") &&
+                    pathname == "/dashboard/analysis" &&
                     "bg-graydark dark:bg-meta-4"
                   }`}
                 >
@@ -208,7 +219,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                 <NavLink
                   to="/dashboard/map"
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                    pathname.includes("map") && "bg-graydark dark:bg-meta-4"
+                    pathname == "/dashboard/map" && "bg-graydark dark:bg-meta-4"
                   }`}
                 >
                   <FaChartPie className="w-4 h-4 fill-current" />{" "}

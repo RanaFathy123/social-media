@@ -1,5 +1,6 @@
 import React from "react";
 import CardDataStats from "../../../../components/CardDataStats";
+import MapChart from "../../../../components/charts/MapChart";
 
 const GeneralOverView = () => {
   return (
@@ -347,6 +348,7 @@ const GeneralOverView = () => {
             />
           </svg>
         </CardDataStats>
+    
       </div>
     </>
   );
