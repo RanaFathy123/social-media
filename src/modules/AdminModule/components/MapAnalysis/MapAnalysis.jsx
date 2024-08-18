@@ -1,219 +1,121 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import CardDataStats from "../../../../components/CardDataStats";
 import BarChartHorizontal from "../../../../components/charts/BarChartHorizontal";
 import PieChart from "../../../../components/charts/PieChart";
+import { useQuery } from "@tanstack/react-query";
 import { fetchDataFromAPI } from "../../../../utility_backend/API_Call";
 
+const body_query_NoSQL = {
+  collectionName: "Zapier_data",
+  pipeline: [
+    {
+      $group: {
+        _id: "$order_status",
+        order_status: { $sum: 1 },
+      },
+    },
+  ],
+};
+
+const Pie_chart_NoSQL = {
+  collectionName: "Zapier_data",
+  pipeline: [
+    {
+      $group: {
+        _id: "$payment_method", // Group by payment method
+        total_value_sum: { $sum: "$order_total" }, // Calculate the sum of total_value
+      },
+    },
+  ],
+};
+
 const MapAnalysis = () => {
-  const [barChartState, setBarChartState] = useState({
-    series: [
-      {
-        name: "Sales",
-        data: [],
-      },
-    ],
-  });
-  const [categories, setCategories] = useState([]); // State for categories
-  const [xAxisName, setXAxisName] = useState("Order Status"); // X-axis name
-  const [yAxisName, setYAxisName] = useState("Count"); // Y-axis name
-
-  const [pieChartState, setPieChartState] = useState({
-    series: [],
-    categories: [],
+  // Fetch bar chart data using React Query with object form
+  const {
+    data: barChartData,
+    isLoading: isLoadingBarChart,
+    error: barChartError,
+  } = useQuery({
+    queryKey: ["fetchBarChartData"],
+    queryFn: () =>
+      fetchDataFromAPI({
+        endpoint: "/api/Query_DB",
+        method: "POST",
+        body: body_query_NoSQL,
+      }),
   });
 
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  // Fetch pie chart data using React Query with object form
+  const {
+    data: pieChartData,
+    isLoading: isLoadingPieChart,
+    error: pieChartError,
+  } = useQuery({
+    queryKey: ["fetchPieChartData"],
+    queryFn: () =>
+      fetchDataFromAPI({
+        endpoint: "/api/Query_DB",
+        method: "POST",
+        body: Pie_chart_NoSQL,
+      }),
+  });
 
-  const filtersData = [];
+  // Handle loading and error states for bar and pie charts
+  if (isLoadingBarChart || isLoadingPieChart) return <div>Loading...</div>;
+  if (barChartError || pieChartError)
+    return <div>Error: {barChartError?.message || pieChartError?.message}</div>;
 
-  const body_query_NoSQL = {
-    collectionName: "Zapier_data",
-    pipeline: [
-      {
-        $group: {
-          _id: "$order_status",
-          order_status: { $sum: 1 },
-        },
-      },
-    ],
-  };
+  // Transform bar chart data
+  const orderStatuses = barChartData.data.map((item) => ({
+    order_status: item._id,
+    count: item.order_status,
+  }));
+  const barChartSeries = orderStatuses.map((item) => item.count);
+  const barChartCategories = orderStatuses.map((item) => item.order_status);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetchDataFromAPI({
-          endpoint: "/api/Query_DB",
-          method: "POST",
-          body: body_query_NoSQL,
-        });
-
-        // Map the response data
-        const orderStatuses = response.data.map((item) => ({
-          order_status: item._id,
-          count: item.order_status,
-        }));
-
-        // Extract data and categories
-        const barChartData = orderStatuses.map((item) => item.count);
-        const barChartCategories = orderStatuses.map(
-          (item) => item.order_status
-        );
-
-        // Update the chart state with the fetched data
-        setBarChartState({
-          series: [
-            {
-              name: "Orders",
-              data: barChartData,
-            },
-          ],
-        });
-        setCategories(barChartCategories); // Update categories state
-
-        setLoading(false);
-      } catch (err) {
-        setError(err.message);
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  ///////////////////////////////////////////Getting data for Pie chart//////////////////////////
-  const Pie_chart_NoSQL = {
-    collectionName: "Zapier_data",
-    pipeline: [
-      {
-        $group: {
-          _id: "$payment_method", // Group by payment method
-          total_value_sum: { $sum: "$order_total" }, // Calculate the sum of total_value
-        },
-      },
-    ],
-  };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const Pie_chart = await fetchDataFromAPI({
-          endpoint: "/api/Query_DB",
-          method: "POST",
-          body: Pie_chart_NoSQL,
-        });
-        // Map the response data
-        const Pie_chart_data = Pie_chart.data.map((item) => ({
-          Payment_Type: item._id,
-          Total_number: item.total_value_sum,
-        }));
-        // Extract data and categories
-        const Pie_chart_data_values = Pie_chart_data.map(
-          (item) => item.Total_number
-        );
-        const Pie_chart_data_Categories = Pie_chart_data.map(
-          (item) => item.Payment_Type
-        );
-        console.log(Pie_chart_data_values);
-        // Optionally, update the pie chart state with actual data if needed
-        setPieChartState({
-          series: Pie_chart_data_values, // Use bar chart data for the pie chart
-          categories: Pie_chart_data_Categories, // Use categories as labels for the pie chart
-        });
-        setLoading(false);
-      } catch (err) {
-        setError(err.message);
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  ///////////////////////////////////////////End Getting data for Pie chart//////////////////////////
-
-  if (loading) return <div>Loading...</div>;
-
-  if (error) return <div>Error: {error}</div>;
+  // Transform pie chart data
+  const pieChartSeries = pieChartData.data.map((item) => item.total_value_sum);
+  const pieChartCategories = pieChartData.data.map((item) => item._id);
 
   return (
     <>
-    <div className="flex justify-between mb-5 flex-col lg:flex-row">
-    <div className="relative z-20 inline-block mb-3">
-        <h1 className="mb-3">شركة الشحن/الفرع</h1>
-        <button
-          className={`py-1 px-3 text-sm font-medium rounded  bg-primary text-white " : "bg-transparent text-black"}`}
-        >
-          This Week
-        </button>
-        <button
-          className={`py-1 px-3 text-sm font-medium rounded "bg-primary text-white" : "bg-transparent text-black"}`}
-        >
-          Last Week
-        </button>
-        <button
-          className={`py-1 px-3 text-sm font-medium rounded "bg-primary text-white" : "bg-transparent text-black"}`}
-        >
-          Last Week
-        </button>
-        <button
-          className={`py-1 px-3 text-sm font-medium rounded "bg-primary text-white" : "bg-transparent text-black"}`}
-        >
-          Last Week
-        </button>
+      <div className="flex justify-between mb-5 flex-col lg:flex-row">
+        <div className="relative z-20 inline-block mb-3">
+          <h1 className="mb-3">شركة الشحن/الفرع</h1>
+          <button className="py-1 px-3 text-sm font-medium rounded bg-primary text-white">
+            This Week
+          </button>
+          <button className="py-1 px-3 text-sm font-medium rounded bg-primary text-white">
+            Last Week
+          </button>
+        </div>
       </div>
-      <div className="relative z-20 inline-block mb-3">
-        <h1 className="mb-3">شركة الشحن/الفرع</h1>
-        <button
-          className={`py-1 px-3 text-sm font-medium rounded  bg-primary text-white" : "bg-transparent text-black"}`}
-        >
-          This Week
-        </button>
-        <button
-          className={`py-1 px-3 text-sm font-medium rounded "bg-primary text-white" : "bg-transparent text-black"}`}
-        >
-          Last Week
-        </button>
-        <button
-          className={`py-1 px-3 text-sm font-medium rounded "bg-primary text-white" : "bg-transparent text-black"}`}
-        >
-          Last Week
-        </button>
-        <button
-          className={`py-1 px-3 text-sm font-medium rounded "bg-primary text-white" : "bg-transparent text-black"}`}
-        >
-          Last Week
-        </button>
-      </div>
-    </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 2xl:gap-8">
         <div>
           <div>
             <BarChartHorizontal
-              data={barChartState.series}
-              categories={categories} // Pass categories
-              xAxisName={xAxisName} // Pass X-axis name
-              yAxisName={yAxisName}// Pass Y-axis name
-              isHorizontal={true} 
+              data={[{ name: "Orders", data: barChartSeries }]}
+              categories={barChartCategories}
+              xAxisName="Order Status"
+              yAxisName="Count"
+              isHorizontal={true}
             />
           </div>
           <div className="mt-5">
-            <div className="mt-5">
-              <BarChartHorizontal
-                data={barChartState.series}
-                categories={categories} // Pass categories
-                xAxisName={xAxisName} // Pass X-axis name
-                yAxisName={yAxisName}// Pass Y-axis name
-                isHorizontal={false} 
-              />
-            </div>
-            <div className="mt-5">
-              <PieChart
-                data={pieChartState.series}
-                categories={pieChartState.categories}
-                title="Payment Methods Distribution"
-              />
-            </div>
+            <BarChartHorizontal
+              data={[{ name: "Orders", data: barChartSeries }]}
+              categories={barChartCategories}
+              xAxisName="Order Status"
+              yAxisName="Count"
+              isHorizontal={false}
+            />
+          </div>
+          <div className="mt-5">
+            <PieChart
+              data={pieChartSeries}
+              categories={pieChartCategories}
+              title="Payment Methods Distribution"
+            />
           </div>
         </div>
         <div>
