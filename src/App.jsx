@@ -17,12 +17,13 @@ import CouriersAnalysis from "./modules/AdminModule/components/CouriersAnalysis/
 import MapPage from "./modules/AdminModule/components/Dashboard/MapPage";
 import ProtectedRoute from "./modules/sharedModule/ProtectedRoute/ProtectedRoute";
 import "./App.css";
+import PrivateRoute from "./modules/sharedModule/PrivateRoute/PrivateRoute";
 
 const App = () => {
   const routes = createBrowserRouter([
     {
       path: "/",
-      element: <AuthLayout />,
+      element: <PrivateRoute><AuthLayout /></PrivateRoute>,
       children: [
         { index: true, element: <SignIn /> },
         { path: "login", element: <SignIn /> },
@@ -45,7 +46,6 @@ const App = () => {
         { path: "analysis", element: <Analysis /> },
         { path: "map", element: <MapAnalysis /> },
         { path: "map-page", element: <MapPage /> },
-
         { path: "success-rate", element: <SuccessRate /> },
         { path: "couriers", element: <CouriersAnalysis /> },
       ],

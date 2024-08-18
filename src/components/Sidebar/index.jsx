@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import SidebarLinkGroup from "./SidebarLinkGroup";
 import { FaChartPie } from "react-icons/fa";
 import { RiLogoutBoxRLine } from "react-icons/ri";
@@ -7,6 +7,7 @@ import { AuthContext } from "../../context/AuthContext";
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const { resetLoginData } = useContext(AuthContext);
+  const navigate = useNavigate();
   const location = useLocation();
   const { pathname } = location;
 
@@ -52,6 +53,10 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       document.querySelector("body")?.classList.remove("sidebar-expanded");
     }
   }, [sidebarExpanded]);
+  const logOut = () => {
+    resetLoginData();
+    navigate("/login");
+  };
 
   return (
     <aside
@@ -438,7 +443,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
               {/* <!-- Menu Item Profile --> */}
               <button
                 className="group w-full relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
-                onClick={resetLoginData}
+                onClick={logOut}
               >
                 <RiLogoutBoxRLine className="text-xl" />
                 LogOut
