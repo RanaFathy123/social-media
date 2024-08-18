@@ -15,8 +15,8 @@ import "react-toastify/dist/ReactToastify.css";
 import SuccessRate from "./modules/AdminModule/components/SuccessRate/SuccessRate";
 import CouriersAnalysis from "./modules/AdminModule/components/CouriersAnalysis/CouriersAnalysis";
 import MapPage from "./modules/AdminModule/components/Dashboard/MapPage";
-
-
+import ProtectedRoute from "./modules/sharedModule/ProtectedRoute/ProtectedRoute";
+import "./App.css";
 
 const App = () => {
   const routes = createBrowserRouter([
@@ -31,7 +31,11 @@ const App = () => {
     },
     {
       path: "/dashboard",
-      element: <AdminLayout />,
+      element: (
+        <ProtectedRoute>
+          <AdminLayout />
+        </ProtectedRoute>
+      ),
       children: [
         { path: "overview", element: <GeneralOverView /> },
         { path: "profile", element: <Profile /> },
