@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../../../context/AuthContext";
+import { axiosInstance } from "../../../../axiosConfig/axiosInstance";
 
 const SignIn = () => {
   const { saveLoginData } = useContext(AuthContext);
@@ -14,19 +15,19 @@ const SignIn = () => {
     formState: { errors },
   } = useForm();
   const navigate = useNavigate();
-  const onSubmit = (data) => {
-    console.log(data);
-
-    //   try{
-    //  const response = await axios.post('api url',data)
-    //   }catch(err){
-    //     console.log(err);
-
-    //   }
-    localStorage.setItem("token", "123");
-    // saveLoginData()
-    toast.success("Login Successfully");
-    navigate("/dashboard/overview");
+  const onSubmit = async (data) => {
+    try {
+      const response = await axiosInstance.post("/api/login", data);
+      console.log(response.data.token);
+      const token = response.data.token;
+      localStorage.setItem("token", token);
+      saveLoginData();
+      toast.success("Login Successfully");
+      navigate("/dashboard/overview");
+    } catch (err) {
+      console.log(err);
+      toast.error("Please check userName or Password");
+    }
   };
 
   return (
@@ -173,18 +174,17 @@ const SignIn = () => {
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
-                    Email
+                    User Name
                   </label>
                   <div className="relative">
                     <input
-                      type="email"
-                      placeholder="Enter your email"
-                      {...register("email", {
+                      type="text"
+                      placeholder="Enter your username"
+                      {...register("username", {
                         required: true,
                       })}
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
-
                     <span className="absolute right-4 top-4">
                       <svg
                         className="fill-current"
@@ -204,10 +204,9 @@ const SignIn = () => {
                     </span>
                   </div>
                 </div>
-
                 <div className="mb-6">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
-                    Re-type Password
+                     Password
                   </label>
                   <div className="relative">
                     <input
