@@ -15,14 +15,23 @@ import "react-toastify/dist/ReactToastify.css";
 import SuccessRate from "./modules/AdminModule/components/SuccessRate/SuccessRate";
 import CouriersAnalysis from "./modules/AdminModule/components/CouriersAnalysis/CouriersAnalysis";
 import MapPage from "./modules/AdminModule/components/Dashboard/MapPage";
+import ProtectedRoute from "./modules/sharedModule/ProtectedRoute/ProtectedRoute";
+import "./App.css";
+import PrivateRoute from "./modules/sharedModule/PrivateRoute/PrivateRoute";
 
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
+const queryClient = new QueryClient();
 
 const App = () => {
   const routes = createBrowserRouter([
     {
       path: "/",
-      element: <AuthLayout />,
+      element: (
+        <PrivateRoute>
+          <AuthLayout />
+        </PrivateRoute>
+      ),
       children: [
         { index: true, element: <SignIn /> },
         { path: "login", element: <SignIn /> },
@@ -31,7 +40,11 @@ const App = () => {
     },
     {
       path: "/dashboard",
-      element: <AdminLayout />,
+      element: (
+        <ProtectedRoute>
+          <AdminLayout />
+        </ProtectedRoute>
+      ),
       children: [
         { path: "overview", element: <GeneralOverView /> },
         { path: "profile", element: <Profile /> },
@@ -39,9 +52,15 @@ const App = () => {
         { path: "profile", element: <Profile /> },
         { path: "settings", element: <Settings /> },
         { path: "analysis", element: <Analysis /> },
-        { path: "map", element: <MapAnalysis /> },
+        {
+          path: "map",
+          element: (
+            <QueryClientProvider client={queryClient}>
+              <MapAnalysis />
+            </QueryClientProvider>
+          ),
+        },
         { path: "map-page", element: <MapPage /> },
-
         { path: "success-rate", element: <SuccessRate /> },
         { path: "couriers", element: <CouriersAnalysis /> },
       ],

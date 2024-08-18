@@ -1,11 +1,13 @@
 import axios from "axios";
-import React from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { AuthContext } from "../../../../context/AuthContext";
 
 const SignIn = () => {
+  const { saveLoginData } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
@@ -14,12 +16,15 @@ const SignIn = () => {
   const navigate = useNavigate();
   const onSubmit = (data) => {
     console.log(data);
+
     //   try{
     //  const response = await axios.post('api url',data)
     //   }catch(err){
     //     console.log(err);
 
     //   }
+    localStorage.setItem("token", "123");
+    // saveLoginData()
     toast.success("Login Successfully");
     navigate("/dashboard/overview");
   };
