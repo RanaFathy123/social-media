@@ -165,7 +165,7 @@ const MapAnalysis = () => {
       <div className="relative z-20 inline-block mb-3">
         <h1 className="mb-3">شركة الشحن/الفرع</h1>
         <button
-          className={`py-1 px-3 text-sm font-medium rounded  bg-primary text-white " : "bg-transparent text-black"}`}
+          className={`py-1 px-3 text-sm font-medium rounded  bg-primary text-white" : "bg-transparent text-black"}`}
         >
           This Week
         </button>
@@ -186,7 +186,6 @@ const MapAnalysis = () => {
         </button>
       </div>
     </div>
- 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 2xl:gap-8">
         <div>
           <div>
@@ -194,8 +193,8 @@ const MapAnalysis = () => {
               data={barChartState.series}
               categories={categories} // Pass categories
               xAxisName={xAxisName} // Pass X-axis name
-              yAxisName={yAxisName}
-              isHorizontal={true} // Pass Y-axis name
+              yAxisName={yAxisName}// Pass Y-axis name
+              isHorizontal={true} 
             />
           </div>
           <div className="mt-5">
@@ -204,8 +203,8 @@ const MapAnalysis = () => {
                 data={barChartState.series}
                 categories={categories} // Pass categories
                 xAxisName={xAxisName} // Pass X-axis name
-                yAxisName={yAxisName}
-                isHorizontal={false} // Pass Y-axis name
+                yAxisName={yAxisName}// Pass Y-axis name
+                isHorizontal={false} 
               />
             </div>
             <div className="mt-5">

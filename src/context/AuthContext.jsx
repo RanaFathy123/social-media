@@ -12,14 +12,16 @@ export default function AuthContextProvider(props) {
     setLoginData(decocodedData);
   };
   const resetLoginData = () => {
-    setLoginData(null);
+    // setLoginData(null);
+    localStorage.removeItem("token");
   };
   // call saveLogin data
-//   useEffect(() => {
-//     if (localStorage.getItem("token")) {
-//       saveLoginData();
-//     }
-//   }, []);
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      //   saveLoginData();
+   
+    }
+  }, []);
   const value = { saveLoginData, loginData, resetLoginData };
   return (
     <AuthContext.Provider value={value}>{props.children}</AuthContext.Provider>
