@@ -13,7 +13,6 @@ const SignIn = () => {
   const {
     register,
     handleSubmit,
-
     formState: { errors, isSubmitting },
   } = useForm();
   const navigate = useNavigate();
@@ -250,7 +249,7 @@ const SignIn = () => {
                         ? "bg-graydark text-white border-x-primary"
                         : "bg-primary border-primary hover:bg-opacity-90 hover:shadow-lg"
                     }`}
-                    disabled={loading}
+                    disabled={isSubmitting}
                   >
                     {loading ? (
                       <svg
