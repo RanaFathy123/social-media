@@ -553,16 +553,7 @@ const MapAnalysis = () => {
           >
             سحاب للخدمات اللوجستية
           </button>
-          <button
-            className={`py-1 px-3 text-sm font-medium rounded ${
-              shipping_company_branch.includes("Last Week")
-                ? "bg-primary text-white"
-                : "bg-transparent text-black"
-            }`}
-            onClick={() => handleShippingCompanyChange("Last Week")}
-          >
-            Last Week
-          </button>
+
         </div>
       </div>
 

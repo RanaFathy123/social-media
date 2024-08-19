@@ -11,6 +11,7 @@ export default function AuthContextProvider(props) {
     let decocodedData = jwtDecode(encodedData);
     setLoginData(decocodedData);
   };
+  
   const resetLoginData = () => {
     setLoginData(null);
     localStorage.removeItem("token");
