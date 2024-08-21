@@ -29,6 +29,7 @@ const SignIn = () => {
     } catch (err) {
       console.log(err);
       toast.error("Please check userName or Password");
+      setLoading(false)
     }
   };
 
